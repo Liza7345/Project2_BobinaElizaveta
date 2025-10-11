@@ -93,4 +93,3 @@ fun main(args: Array<String>) {
     println("Второй массив: ${array2.joinToString()}")
     println("Пересечение массивов: ${result.joinToString()}")
 }
-}
