@@ -38,5 +38,5 @@ fun main(args: Array<String>) {
         println()
     }
     val a = countdigits (arr)
-    println("В массиве используются $a различных символов.")
+    println("В массиве используются $a различных символа.")
 }
