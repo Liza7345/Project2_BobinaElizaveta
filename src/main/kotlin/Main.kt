@@ -70,30 +70,22 @@ fun main(args: Array<String>) {
 
     println("Задача 4.")
     println("Введите первый массив чисел через пробел: ")
-    // Читаем ввод, разбиваем на части по пробелам, преобразуем каждую часть в число
+
     val array1 = (readLine() ?: "").split(" ").map { it.toInt() }.toIntArray()
 
-    // Просим пользователя ввести второй массив
     println("Введите второй массив чисел через пробел:")
     val array2 = (readLine() ?: "").split(" ").map { it.toInt() }.toIntArray()
 
-    // Создаем список для результата
     val result = mutableListOf<Int>()
-    // Создаем копию второго массива для работы
     val tempArray2 = array2.toMutableList()
 
-    // Перебираем элементы первого массива
     for (element in array1) {
-        // Если элемент есть во втором массиве
         if (tempArray2.contains(element)) {
-            // Добавляем в результат
             result.add(element)
-            // Удаляем из временного массива
             tempArray2.remove(element)
         }
     }
 
-    // Сортируем результат
     result.sort()
 
     // Выводим итог
