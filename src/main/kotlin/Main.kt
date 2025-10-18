@@ -67,6 +67,39 @@ fun main(args: Array<String>) {
     println()
 
 
+    println("Задача 3.")
+    val al = listOf("А", "Б", "В", "Г", "Д", "Е", "Ё", "Ж", "З", "И",
+        "Й", "К", "Л", "М", "Н", "О", "П", "Р", "С", "Т",
+        "У", "Ф", "Х", "Ц", "Ч", "Ш", "Щ", "Ь", "Ы", "Ъ",
+        "Э", "Ю", "Я")
+    val chisl = listOf(21, 13, 4, 20, 22, 1, 25, 12, 24, 14, 2, 28, 9, 23, 3, 29, 6, 16, 15, 11, 26, 5, 30, 27, 8, 18, 10, 33, 31, 32, 19, 7, 17)
+    val Chartonum = al.zip(chisl).toMap()
+    val Numtochar= chisl.zip(al).toMap()
+    print ("Vvedite 1 dla rashif and 2 dla shifr: ")
+    val n = readln().trim()
+    print ("Vvedite key: ")
+    val key = readln().uppercase()
+    print ("Vvedite text: ")
+    val text = readln().uppercase()
+    val res = StringBuilder()
+    var k = 0
+    for (i in text) {
+        val ch = Chartonum[i]
+        val keych = key[k%key.length]
+        val s = Chartonum[keych]
+        val newNum = if (n=="2"){
+            ((ch+s-1)%33+1)
+        }
+        else {
+            ((ch-s-1+33*10)%33+1)
+        }
+        res.append(Numtochar[newNum])
+        k++
+    }
+    if (n=="1") println("rashif text: $res")
+    else println ("zashif text: $res")
+
+
 
     println("Задача 4.")
     println("Введите первый массив чисел через пробел: ")
@@ -88,7 +121,6 @@ fun main(args: Array<String>) {
 
     result.sort()
 
-    // Выводим итог
     println("\nПервый массив: ${array1.joinToString()}")
     println("Второй массив: ${array2.joinToString()}")
     println("Пересечение массивов: ${result.joinToString()}")
