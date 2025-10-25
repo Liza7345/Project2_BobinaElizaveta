@@ -1,4 +1,5 @@
 import kotlin.random.Random
+import java.util.LinkedHashMap
 fun countdigits (arr: Array<IntArray>): Int {
     val digitset = mutableSetOf <Char> ()
     for (row in arr) {
@@ -8,6 +9,15 @@ fun countdigits (arr: Array<IntArray>): Int {
     }
     return digitset.size
 }
+fun groupWords (Words: List<String>) : List<List<String>> {
+    val groups:MutableMap<String, MutableList<String>> = LinkedHashMap()
+    for ( word in Words) {
+        val key = word.toCharArray().sorted().joinToString("")
+        groups.getOrPut(key){mutableListOf()}.add(word)
+    }
+    return groups.values.map{it.toList()}
+}
+
 fun main(args: Array<String>) {
     println ("ведите количество строк: ")
     val rows = readLine()?.toIntOrNull()?:
@@ -68,36 +78,53 @@ fun main(args: Array<String>) {
 
 
     println("Задача 3.")
-    val al = listOf("А", "Б", "В", "Г", "Д", "Е", "Ё", "Ж", "З", "И",
-        "Й", "К", "Л", "М", "Н", "О", "П", "Р", "С", "Т",
-        "У", "Ф", "Х", "Ц", "Ч", "Ш", "Щ", "Ь", "Ы", "Ъ",
-        "Э", "Ю", "Я")
-    val chisl = listOf(21, 13, 4, 20, 22, 1, 25, 12, 24, 14, 2, 28, 9, 23, 3, 29, 6, 16, 15, 11, 26, 5, 30, 27, 8, 18, 10, 33, 31, 32, 19, 7, 17)
-    val Chartonum = al.zip(chisl).toMap()
-    val Numtochar= chisl.zip(al).toMap()
-    print ("Vvedite 1 dla rashif and 2 dla shifr: ")
-    val n = readln().trim()
-    print ("Vvedite key: ")
+    val alphabet = listOf(
+        'А', 'Б', 'В', 'Г', 'Д', 'Е', 'Ё', 'Ж', 'З', 'И', 'Й',
+        'К', 'Л', 'М', 'Н', 'О', 'П', 'Р', 'С', 'Т', 'У', 'Ф',
+        'Х', 'Ц', 'Ч', 'Ш', 'Щ', 'Ь', 'Ы', 'Ъ', 'Э', 'Ю', 'Я'
+    )
+    val perm = listOf(
+        21, 13, 4, 20, 22, 1, 25, 12, 24, 14, 2, 28, 9, 23, 3,
+        29, 6, 16, 15, 11, 26, 5, 30, 27, 8, 18, 10, 33, 31, 32, 19, 7, 17
+    )
+    val charToNum = alphabet.zip(perm).toMap()
+    val numToChar = perm.zip(alphabet).toMap()
+
+    print("Выберите режим (1 - шифровать, 2 - дешифровать): ")
+    val mode = readln().trim()
+
+    print("Введите текст: ")
+    val text = readln().uppercase().replace('Ё', 'Ё')
+
+    print("Введите ключевое слово: ")
     val key = readln().uppercase()
-    print ("Vvedite text: ")
-    val text = readln().uppercase()
-    val res = StringBuilder()
-    var k = 0
-    for (i in text) {
-        val ch = Chartonum[i]
-        val keych = key[k%key.length]
-        val s = Chartonum[keych]
-        val newNum = if (n=="2"){
-            ((ch+s-1)%33+1)
+
+    val result = StringBuilder()
+    var keyIndex = 0
+
+    for (ch in text) {
+        if (ch !in charToNum.keys) {
+            result.append(ch)
+            continue
         }
-        else {
-            ((ch-s-1+33*10)%33+1)
+
+        val chNum = charToNum[ch]!!
+        val keyCh = key[keyIndex % key.length]
+        val shift = charToNum[keyCh]!!
+
+        val newNum = if (mode == "1") {
+            ((chNum + shift - 1) % 33) + 1
+        } else {
+            ((chNum - shift - 1 + 33 * 10) % 33) + 1
         }
-        res.append(Numtochar[newNum])
-        k++
+
+        result.append(numToChar[newNum])
+        keyIndex++
     }
-    if (n=="1") println("rashif text: $res")
-    else println ("zashif text: $res")
+
+    if (mode == "1") println("Зашифрованный текст: $result")
+    else println("Дешифрованный текст: $result")
+
 
 
 
@@ -109,19 +136,35 @@ fun main(args: Array<String>) {
     println("Введите второй массив чисел через пробел:")
     val array2 = (readLine() ?: "").split(" ").map { it.toInt() }.toIntArray()
 
-    val result = mutableListOf<Int>()
+    val result4 = mutableListOf<Int>()
     val tempArray2 = array2.toMutableList()
 
     for (element in array1) {
         if (tempArray2.contains(element)) {
-            result.add(element)
+            result4.add(element)
             tempArray2.remove(element)
         }
     }
 
-    result.sort()
+    result4.sort()
 
     println("\nПервый массив: ${array1.joinToString()}")
     println("Второй массив: ${array2.joinToString()}")
-    println("Пересечение массивов: ${result.joinToString()}")
+    println("Пересечение массивов: ${result4.joinToString()}")
+
+    println("Задача 5.")
+    println ("Введите слова через пробел: ")
+    val line = readLine ()?.trim().orEmpty()
+    if (line.isEmpty()) {
+        println ("Ошибка")
+        return
+    }
+    val Words = line.split(" ","\t")
+        .map{it.trim()}
+        .filter{it.isNotEmpty()}
+        .distinct()
+    val group = groupWords(Words)
+    for (g in group) {
+        println (g.joinToString(", "){"\"$it\""})
+    }
 }
