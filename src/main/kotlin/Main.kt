@@ -18,7 +18,7 @@ fun groupWords (Words: List<String>) : List<List<String>> {
     return groups.values.map{it.toList()}
 }
 
-fun main(args: Array<String>) {
+fun task1 () {
     println ("ведите количество строк: ")
     val rows = readLine()?.toIntOrNull()?:
     return println ("Error")
@@ -51,9 +51,8 @@ fun main(args: Array<String>) {
     val a = countdigits (arr)
     println("В массиве используются $a различных символа.")
     println()
-
-
-    println("Задача 2.")
+}
+fun task2 () {
     val size = 5
     val matrix = Array(size) { IntArray(size) }
 
@@ -75,9 +74,8 @@ fun main(args: Array<String>) {
 
     println("\nМатрица симметрична относительно главной диагонали")
     println()
-
-
-    println("Задача 3.")
+}
+fun task3 () {
     val alphabet = listOf(
         'А', 'Б', 'В', 'Г', 'Д', 'Е', 'Ё', 'Ж', 'З', 'И', 'Й',
         'К', 'Л', 'М', 'Н', 'О', 'П', 'Р', 'С', 'Т', 'У', 'Ф',
@@ -124,11 +122,9 @@ fun main(args: Array<String>) {
 
     if (mode == "1") println("Зашифрованный текст: $result")
     else println("Дешифрованный текст: $result")
+}
 
-
-
-
-    println("Задача 4.")
+fun task4 () {
     println("Введите первый массив чисел через пробел: ")
 
     val array1 = (readLine() ?: "").split(" ").map { it.toInt() }.toIntArray()
@@ -151,8 +147,8 @@ fun main(args: Array<String>) {
     println("\nПервый массив: ${array1.joinToString()}")
     println("Второй массив: ${array2.joinToString()}")
     println("Пересечение массивов: ${result4.joinToString()}")
-
-    println("Задача 5.")
+}
+fun task5 () {
     println ("Введите слова через пробел: ")
     val line = readLine ()?.trim().orEmpty()
     if (line.isEmpty()) {
@@ -166,5 +162,46 @@ fun main(args: Array<String>) {
     val group = groupWords(Words)
     for (g in group) {
         println (g.joinToString(", "){"\"$it\""})
+    }
+}
+
+fun main(args: Array<String>) {
+    println("Для завершения программы нажмите N")
+    while (true) {
+        println("Введите номер задачи от 1 до 6:")
+        val t = readln().trim()
+        when (t.uppercase()) {
+            "N" -> {
+                println("Программа завершена!")
+                return
+            }
+            "1" -> {
+                println("Задачи 1 (Считает количество различных символов в массиве)")
+                task1()
+            }
+
+            "2" -> {
+                println("Задачи 2 (Выясняет симметричен ли сгенерированный массив относительно главной диагонали)")
+                task2()
+            }
+
+            "3" -> {
+                println("Задача 3 (Шифрует текст по ключевому слову)")
+                task3()
+            }
+
+            "4" -> {
+                println("Задача 4 (Считает количество повторений чисел в массиве)")
+                task4()
+            }
+
+            "5" -> {
+                println("Задача 5 (показывает слова сгруппированные по признаку \"состоят из одинаковых букв\")")
+                task5()
+            }
+
+
+            else -> println("Ошибка: введите число от 1 до 5")
+        }
     }
 }
