@@ -168,7 +168,7 @@ fun task5 () {
 fun main(args: Array<String>) {
     println("Для завершения программы нажмите N")
     while (true) {
-        println("Введите номер задачи от 1 до 6:")
+        println("Введите номер задачи от 1 до 5:")
         val t = readln().trim()
         when (t.uppercase()) {
             "N" -> {
